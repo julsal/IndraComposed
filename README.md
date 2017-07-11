@@ -1,20 +1,6 @@
 
 __NOTE: This documentation refers to the latest version of Indra. Look for the tags in this repository if you need to install older versions.__
 
-Table of Contents
-=================
-
-   * [Indra Composed](#indra-composed)
-      * [Requirements](#requirements)
-      * [How to start a local instance with the Google News Word2Vec model](#how-to-start-a-local-instance-with-the-google-news-word2vec-model)
-   * [Models](#models)
-      * [Translations](#translations)
-      * [Building Models](#building-models)
-   * [Programmatically usage from Python](#programmatically-usage-from-python)
-   * [Citing Indra](#citing-indra)
-   * [Issues](#issues)
-
-
 # Indra Composed
 
 A set of utilities to launch __Indra__ and its dependencies with docker-compose. The main goal here is to get a running instance quickly.
@@ -53,7 +39,7 @@ Assuming you have already cloned this repository do the following.
 	},
 	{
 		"t2": "car",
-		"t1": "flowers"
+		"t1": "bee in flowers"
 	}]
 }' "http://localhost:8916/relatedness"
 ```
@@ -62,7 +48,7 @@ More detailed documentation is [here](https://github.com/Lambda-3/Indra).
 
 # Models
 
-Currently we store the models in the MongoDB database. We are making models available for download [here](http://data.lambda3.org/indra/dumps).
+Currently we store dense models in [annoy](https://github.com/spotify/annoy) indexes, while sparse models and translation data we store in a MongoDB database. Models are available for download [here](http://data.lambda3.org/indra/dumps).
 
 ## Translations
 

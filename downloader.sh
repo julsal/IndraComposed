@@ -15,7 +15,7 @@ if [ ! $1 ]; then
 fi
 
 
-if [[ $1 != esa* ]] ; then
+if [[ $1 != esa* ]] && [[ $1 != *OpenSubtitile ]] ; then
 	MODELFILE="$1.annoy.tar.gz"
 	MD5FILE="$1.annoy.tar.gz.md5"
 	ISANNOY=1

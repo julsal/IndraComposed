@@ -51,7 +51,7 @@ fi
 
 if [[ $ISANNOY -eq 0 ]]; then
 	docker exec -it indramongo mongorestore /dumps/$1 -d $1 --stopOnError
-	rm $1
+	rm -r $1
 fi
 
 echo "Finished."

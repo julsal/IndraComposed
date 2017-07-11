@@ -15,14 +15,13 @@ if [ ! $1 ]; then
 fi
 
 
-if [ $1 == w2v* ] || [ $1 == glove* ] || [ $1 == lsa* ]; then
+if [[ $1 != esa* ]] ; then
 	MODELFILE="$1.annoy.tar.gz"
 	MD5FILE="$1.annoy.tar.gz.md5"
-	$ISANNOY = 1;
-	mkdir -p annoy/data
-	cd annoy
+	ISANNOY=1
+	mkdir -p data/annoy
+	cd data/annoy
 else
-
 	loaded=`docker exec -it indramongo mongo $1 --quiet --eval "db.getCollectionNames().length"`
 	loaded=$(echo -n "${loaded//[[:space:]]/}")
 
@@ -33,24 +32,26 @@ else
 
 	MODELFILE="$1.tar.gz"
 	MD5FILE="$1.tar.gz.md5"
-	$ISANNOY = 0;
-	mkdir -p mongo/data
-	cd mongo
+	ISANNOY=0
+	mkdir -p dumps
+	cd dumps
 fi
 
 MODELURL="$BASEURL/$MODELFILE"
 MD5URL="$BASEURL/$MD5FILE"
 
+echo "$ISANNOY"
 if [ ! -d "./$1" ]; then
 	echo "Downloading $MODELURL .."
 	wget -nc $MODELURL && wget -nc $MD5URL && md5sum -c $MD5FILE 
 	echo "Extracting $MODELFILE"
-	tar -C ./data -xf $MODELFILE --totals
+	tar -C . -xf $MODELFILE --totals
 	rm $MODELFILE $MD5FILE
 fi
 
-if [! $ISANNOY]; then
-	docker exec -it indramongo mongorestore /dumps/data/$1 -d $1 --stopOnError
+if [[ $ISANNOY -eq 0 ]]; then
+	docker exec -it indramongo mongorestore /dumps/$1 -d $1 --stopOnError
+	rm $1
 fi
 
 echo "Finished."
